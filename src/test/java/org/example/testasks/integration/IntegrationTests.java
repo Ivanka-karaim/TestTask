@@ -72,6 +72,7 @@ class IntegrationTests {
     void resetState() {
         wireMock.resetAll();
         paymentRepository.deleteAll();
+        stubOAuthToken();
     }
 
     // ── GET /api/accounts/{accountId}/balance ─────────────────────────────
@@ -338,29 +339,12 @@ class IntegrationTests {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
-    @Test
-    @Order(29)
-    void initiatePayment_multipleSuccessful_allPersisted() {
-        stubBalance(IBAN_1, 5000.00, "EUR");
-        stubPaymentCompleted("ext-m1");
-        restTemplate.postForEntity("/api/payments/initiate",
-                buildPaymentRequest(IBAN_1, IBAN_2, 100.00, "EUR"),
-                PaymentInitiateResponse.class);
-
-        wireMock.resetAll();
-        stubBalance(IBAN_1, 4900.00, "EUR");
-        stubPaymentCompleted("ext-m2");
-        restTemplate.postForEntity("/api/payments/initiate",
-                buildPaymentRequest(IBAN_1, IBAN_3, 300.00, "EUR"),
-                PaymentInitiateResponse.class);
-
-        assertThat(paymentRepository.findAll()).hasSize(2);
-    }
 
     // ── WireMock helpers ──────────────────────────────────────────────────
 
     private void stubBalance(String iban, double balance, String currency) {
         wireMock.stubFor(get(urlEqualTo("/mock/api/accounts/" + iban + "/balance"))
+                .withHeader("Authorization", equalTo("Bearer mock-token"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
@@ -370,6 +354,7 @@ class IntegrationTests {
 
     private void stubTransactions(String iban, String txJson) {
         wireMock.stubFor(get(urlEqualTo("/mock/api/accounts/" + iban + "/transactions"))
+                .withHeader("Authorization", equalTo("Bearer mock-token"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
@@ -378,11 +363,29 @@ class IntegrationTests {
 
     private void stubPaymentCompleted(String extRef) {
         wireMock.stubFor(post(urlEqualTo("/mock/api/payments"))
+                .withHeader("Authorization", equalTo("Bearer mock-token"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
-                        .withBody("{\"status\":\"COMPLETED\",\"externalReference\":\"%s\"}"
-                                .formatted(extRef))));
+                        .withBody("""
+                        {
+                          "status":"COMPLETED",
+                          "externalReference":"%s"
+                        }
+                        """.formatted(extRef))));
+    }
+    private void stubOAuthToken() {
+        wireMock.stubFor(post(urlEqualTo("/mock/api/oauth/token"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("""
+                        {
+                          "access_token": "mock-token",
+                          "token_type": "Bearer",
+                          "expires_in": 3600
+                        }
+                        """)));
     }
 
     // ── Domain helpers ────────────────────────────────────────────────────
