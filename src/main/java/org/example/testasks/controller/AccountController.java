@@ -25,31 +25,31 @@ public class AccountController {
     private final AccountService accountService;
 
 
-    @GetMapping("/{iban}/balance")
+    @GetMapping("/{accountId}/balance")
     @Operation(summary = "Get account balance", description = "Returns current balance and currency for the specified IBAN.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Balance returned", content = @Content(schema = @Schema(implementation = AccountBalanceResponse.class))),
             @ApiResponse(responseCode = "400", description = "Bad request or validation error")
     })
-    public ResponseEntity<AccountBalanceResponse> getBalance(@PathVariable("iban") @Pattern(
+    public ResponseEntity<AccountBalanceResponse> getBalance(@PathVariable("accountId") @Pattern(
             regexp = "^UA[0-9]{27}$",
             message = "Invalid IBAN format"
-    ) String iban) {
-        var resp = accountService.getBalance(iban);
+    ) String accountId) {
+        var resp = accountService.getBalance(accountId);
         return ResponseEntity.ok(resp);
     }
 
-    @GetMapping("/{iban}/transactions")
+    @GetMapping("/{accountId}/transactions")
     @Operation(summary = "Get recent transactions", description = "Returns the most recent transactions (persisted from external bank) for the specified IBAN.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "List of transactions returned", content = @Content(schema = @Schema(implementation = TransactionResponse.class))),
             @ApiResponse(responseCode = "400", description = "Bad request or validation error")
     })
-    public ResponseEntity<List<TransactionResponse>> getTransactions(@PathVariable("iban") @Pattern(
+    public ResponseEntity<List<TransactionResponse>> getTransactions(@PathVariable("accountId") @Pattern(
             regexp = "^UA[0-9]{27}$",
             message = "Invalid IBAN format"
-    ) String iban) {
-        var resp = accountService.getTransactions(iban);
+    ) String accountId) {
+        var resp = accountService.getTransactions(accountId);
         return ResponseEntity.ok(resp);
     }
 }
