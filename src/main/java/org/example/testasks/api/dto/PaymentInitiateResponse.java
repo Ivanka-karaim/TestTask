@@ -6,14 +6,12 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PaymentInitiateResponse {
-    private Long id;
     private String status;
     private String externalReference;
 
     public PaymentInitiateResponse() {}
 
-    public PaymentInitiateResponse(Long id, String status, String externalReference) {
-        this.id = id;
+    public PaymentInitiateResponse( String status, String externalReference) {
         this.status = status;
         this.externalReference = externalReference;
     }

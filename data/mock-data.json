@@ -2,7 +2,7 @@
   "accounts" : [ {
     "iban" : "UA893220010000026005000000001",
     "name" : "Ivanna",
-    "balance" : 600.50,
+    "balance" : 4200.50,
     "currency" : "EUR",
     "transactions" : [ {
       "id" : "tx1",
@@ -89,32 +89,11 @@
       "timestamp" : 1749733200.000000000,
       "description" : "Gym"
     }, {
-      "id" : "5e37033b-ae4f-4580-bbed-d17a8c93d61d",
+      "id" : "b128e93b-7050-4519-b7a7-913cddfebfc0",
       "iban" : "UA893220010000026005000000001",
-      "amount" : 200,
+      "amount" : 1000,
       "currency" : "EUR",
-      "timestamp" : 1781105356.282953200,
-      "description" : "Payment to UA893220010000026005000000002"
-    }, {
-      "id" : "9139e485-4ceb-42f2-bddd-068ea8d7f1d8",
-      "iban" : "UA893220010000026005000000001",
-      "amount" : 200,
-      "currency" : "EUR",
-      "timestamp" : 1781105435.452160700,
-      "description" : "Payment to UA893220010000026005000000004"
-    }, {
-      "id" : "ccb51d0a-b63f-4035-b74c-5d63ec150e63",
-      "iban" : "UA893220010000026005000000001",
-      "amount" : 200,
-      "currency" : "EUR",
-      "timestamp" : 1781105440.656890100,
-      "description" : "Payment to UA893220010000026005000000010"
-    }, {
-      "id" : "6081531a-3a1f-4c8a-8766-ad82a407db35",
-      "iban" : "UA893220010000026005000000001",
-      "amount" : 4000,
-      "currency" : "EUR",
-      "timestamp" : 1781105446.365530100,
+      "timestamp" : 1781113435.055423300,
       "description" : "Payment to UA893220010000026005000000010"
     } ]
   }, {

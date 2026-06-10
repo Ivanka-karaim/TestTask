@@ -57,6 +57,6 @@ public class PaymentService {
         p.setUpdatedAt(OffsetDateTime.now());
         p = paymentRepository.save(p);
 
-        return new PaymentInitiateResponse(p.getId(), p.getStatus().name(), p.getExternalReference());
+        return new PaymentInitiateResponse( p.getStatus().name(), p.getExternalReference());
     }
 }
