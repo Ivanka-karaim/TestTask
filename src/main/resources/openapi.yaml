@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: tesTasks OpenBanking API
+  version: '1.0'
+  description: |
+    Simple OpenBanking API for test task.
+    - Retrieve account balance
+    - Fetch recent transactions
+    - Initiate payments
+servers:
+  - url: http://localhost:8084
+paths:
+  /api/accounts/{accountId}/balance:
+    get:
+      summary: Get account balance
+      description: Returns current balance and currency for the specified IBAN.
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Balance returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountBalanceResponse'
+  /api/accounts/{accountId}/transactions:
+    get:
+      summary: Get recent transactions
+      description: Returns last 10 transactions for the specified IBAN.
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Transactions list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransactionResponse'
+  /api/payments/initiate:
+    post:
+      summary: Initiate payment
+      description: Initiates an IBAN-to-IBAN payment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInitiateRequest'
+      responses:
+        '200':
+          description: Payment processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentInitiateResponse'
+components:
+  schemas:
+    AccountBalanceResponse:
+      type: object
+      properties:
+        iban:
+          type: string
+        balance:
+          type: number
+          format: double
+        currency:
+          type: string
+    TransactionResponse:
+      type: object
+      properties:
+        externalId:
+          type: string
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        description:
+          type: string
+    PaymentInitiateRequest:
+      type: object
+      required: [fromIban, toIban, amount, currency]
+      properties:
+        fromIban:
+          type: string
+        toIban:
+          type: string
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+    PaymentInitiateResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+        externalReference:
+          type: string
+security: []

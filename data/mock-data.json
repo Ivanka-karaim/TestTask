@@ -1,0 +1,252 @@
+{
+  "accounts" : [ {
+    "iban" : "UA893220010000026005000000001",
+    "name" : "Ivanna",
+    "balance" : 600.50,
+    "currency" : "EUR",
+    "transactions" : [ {
+      "id" : "tx1",
+      "iban" : "UA111111111",
+      "amount" : 120.00,
+      "currency" : "EUR",
+      "timestamp" : 1748772000.000000000,
+      "description" : "Netflix"
+    }, {
+      "id" : "tx2",
+      "iban" : "UA111111111",
+      "amount" : 300.00,
+      "currency" : "EUR",
+      "timestamp" : 1748865600.000000000,
+      "description" : "Amazon"
+    }, {
+      "id" : "tx3",
+      "iban" : "UA111111111",
+      "amount" : 45.99,
+      "currency" : "EUR",
+      "timestamp" : 1748939400.000000000,
+      "description" : "Spotify"
+    }, {
+      "id" : "tx4",
+      "iban" : "UA111111111",
+      "amount" : 89.90,
+      "currency" : "EUR",
+      "timestamp" : 1749046800.000000000,
+      "description" : "Uber"
+    }, {
+      "id" : "tx5",
+      "iban" : "UA111111111",
+      "amount" : 15.00,
+      "currency" : "EUR",
+      "timestamp" : 1749147000.000000000,
+      "description" : "Coffee"
+    }, {
+      "id" : "tx6",
+      "iban" : "UA111111111",
+      "amount" : 200.00,
+      "currency" : "EUR",
+      "timestamp" : 1749200400.000000000,
+      "description" : "Shopping"
+    }, {
+      "id" : "tx7",
+      "iban" : "UA111111111",
+      "amount" : 60.00,
+      "currency" : "EUR",
+      "timestamp" : 1749296700.000000000,
+      "description" : "Restaurant"
+    }, {
+      "id" : "tx8",
+      "iban" : "UA111111111",
+      "amount" : 500.00,
+      "currency" : "EUR",
+      "timestamp" : 1749398400.000000000,
+      "description" : "Electronics"
+    }, {
+      "id" : "tx9",
+      "iban" : "UA111111111",
+      "amount" : 35.50,
+      "currency" : "EUR",
+      "timestamp" : 1749460500.000000000,
+      "description" : "Taxi"
+    }, {
+      "id" : "tx10",
+      "iban" : "UA111111111",
+      "amount" : 99.99,
+      "currency" : "EUR",
+      "timestamp" : 1749585600.000000000,
+      "description" : "Clothes"
+    }, {
+      "id" : "tx11",
+      "iban" : "UA111111111",
+      "amount" : 10.00,
+      "currency" : "EUR",
+      "timestamp" : 1749627000.000000000,
+      "description" : "Snack"
+    }, {
+      "id" : "tx12",
+      "iban" : "UA111111111",
+      "amount" : 150.00,
+      "currency" : "EUR",
+      "timestamp" : 1749733200.000000000,
+      "description" : "Gym"
+    }, {
+      "id" : "5e37033b-ae4f-4580-bbed-d17a8c93d61d",
+      "iban" : "UA893220010000026005000000001",
+      "amount" : 200,
+      "currency" : "EUR",
+      "timestamp" : 1781105356.282953200,
+      "description" : "Payment to UA893220010000026005000000002"
+    }, {
+      "id" : "9139e485-4ceb-42f2-bddd-068ea8d7f1d8",
+      "iban" : "UA893220010000026005000000001",
+      "amount" : 200,
+      "currency" : "EUR",
+      "timestamp" : 1781105435.452160700,
+      "description" : "Payment to UA893220010000026005000000004"
+    }, {
+      "id" : "ccb51d0a-b63f-4035-b74c-5d63ec150e63",
+      "iban" : "UA893220010000026005000000001",
+      "amount" : 200,
+      "currency" : "EUR",
+      "timestamp" : 1781105440.656890100,
+      "description" : "Payment to UA893220010000026005000000010"
+    }, {
+      "id" : "6081531a-3a1f-4c8a-8766-ad82a407db35",
+      "iban" : "UA893220010000026005000000001",
+      "amount" : 4000,
+      "currency" : "EUR",
+      "timestamp" : 1781105446.365530100,
+      "description" : "Payment to UA893220010000026005000000010"
+    } ]
+  }, {
+    "iban" : "UA893220010000026005000000002",
+    "name" : "Oleh",
+    "balance" : 8400.00,
+    "currency" : "EUR",
+    "transactions" : [ {
+      "id" : "tx20",
+      "iban" : "UA222222222",
+      "amount" : 1000.00,
+      "currency" : "EUR",
+      "timestamp" : 1748768400.000000000,
+      "description" : "Salary"
+    }, {
+      "id" : "tx21",
+      "iban" : "UA222222222",
+      "amount" : 200.00,
+      "currency" : "EUR",
+      "timestamp" : 1748860200.000000000,
+      "description" : "Rent"
+    }, {
+      "id" : "tx22",
+      "iban" : "UA222222222",
+      "amount" : 75.00,
+      "currency" : "EUR",
+      "timestamp" : 1748959200.000000000,
+      "description" : "Utilities"
+    }, {
+      "id" : "tx23",
+      "iban" : "UA222222222",
+      "amount" : 40.00,
+      "currency" : "EUR",
+      "timestamp" : 1749063600.000000000,
+      "description" : "Groceries"
+    }, {
+      "id" : "tx24",
+      "iban" : "UA222222222",
+      "amount" : 120.00,
+      "currency" : "EUR",
+      "timestamp" : 1749121200.000000000,
+      "description" : "Fuel"
+    }, {
+      "id" : "tx25",
+      "iban" : "UA222222222",
+      "amount" : 60.00,
+      "currency" : "EUR",
+      "timestamp" : 1749223800.000000000,
+      "description" : "Restaurant"
+    }, {
+      "id" : "tx26",
+      "iban" : "UA222222222",
+      "amount" : 300.00,
+      "currency" : "EUR",
+      "timestamp" : 1749285900.000000000,
+      "description" : "Shopping"
+    } ]
+  }, {
+    "iban" : "UA893220010000026005000000003",
+    "name" : "Anna",
+    "balance" : 12000.75,
+    "currency" : "EUR",
+    "transactions" : [ {
+      "id" : "tx30",
+      "iban" : "UA333333333",
+      "amount" : 1500.00,
+      "currency" : "EUR",
+      "timestamp" : 1748764800.000000000,
+      "description" : "Salary"
+    }, {
+      "id" : "tx31",
+      "iban" : "UA333333333",
+      "amount" : 500.00,
+      "currency" : "EUR",
+      "timestamp" : 1748856600.000000000,
+      "description" : "Transfer"
+    }, {
+      "id" : "tx32",
+      "iban" : "UA333333333",
+      "amount" : 250.00,
+      "currency" : "EUR",
+      "timestamp" : 1748948400.000000000,
+      "description" : "Shopping"
+    }, {
+      "id" : "tx33",
+      "iban" : "UA333333333",
+      "amount" : 80.00,
+      "currency" : "EUR",
+      "timestamp" : 1749039300.000000000,
+      "description" : "Food"
+    }, {
+      "id" : "tx34",
+      "iban" : "UA333333333",
+      "amount" : 60.00,
+      "currency" : "EUR",
+      "timestamp" : 1749134700.000000000,
+      "description" : "Taxi"
+    }, {
+      "id" : "tx35",
+      "iban" : "UA333333333",
+      "amount" : 400.00,
+      "currency" : "EUR",
+      "timestamp" : 1749229200.000000000,
+      "description" : "Electronics"
+    }, {
+      "id" : "tx36",
+      "iban" : "UA333333333",
+      "amount" : 90.00,
+      "currency" : "EUR",
+      "timestamp" : 1749326400.000000000,
+      "description" : "Clothes"
+    }, {
+      "id" : "tx37",
+      "iban" : "UA333333333",
+      "amount" : 55.00,
+      "currency" : "EUR",
+      "timestamp" : 1749376800.000000000,
+      "description" : "Coffee"
+    }, {
+      "id" : "tx38",
+      "iban" : "UA333333333",
+      "amount" : 110.00,
+      "currency" : "EUR",
+      "timestamp" : 1749475800.000000000,
+      "description" : "Restaurant"
+    }, {
+      "id" : "tx39",
+      "iban" : "UA333333333",
+      "amount" : 700.00,
+      "currency" : "EUR",
+      "timestamp" : 1749578400.000000000,
+      "description" : "Travel"
+    } ]
+  } ]
+}
