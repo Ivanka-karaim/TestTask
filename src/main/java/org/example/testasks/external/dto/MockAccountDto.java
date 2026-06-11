@@ -1,11 +1,14 @@
 package org.example.testasks.external.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class MockAccountDto {
 
     private String iban;

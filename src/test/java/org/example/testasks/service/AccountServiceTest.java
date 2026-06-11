@@ -33,7 +33,7 @@ class AccountServiceTest {
     @Test
     void getBalance_returnsMappedBalance() {
 
-        String iban = "DEABC";
+        String iban = "UA893220010000026005000000031";
 
         when(externalBankClient.getBalance(iban))
                 .thenReturn(new ExternalBalanceDto(
@@ -54,7 +54,7 @@ class AccountServiceTest {
     @Test
     void getTransactions_returnsMappedTransactions() {
 
-        String iban = "DEXYZ";
+        String iban = "UA893220010000026005000000021";
 
         ExternalTransactionDto t1 = new ExternalTransactionDto(
                 "id1",

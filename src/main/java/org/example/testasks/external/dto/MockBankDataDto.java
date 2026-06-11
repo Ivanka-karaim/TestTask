@@ -1,9 +1,13 @@
 package org.example.testasks.external.dto;
 
-import lombok.Data;
+import lombok.*;
+
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class MockBankDataDto {
     private List<MockAccountDto> accounts;
 }

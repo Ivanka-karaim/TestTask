@@ -32,6 +32,7 @@ public class PaymentInitiateRequest {
     private BigDecimal amount;
 
     @NotBlank
+    @Pattern(regexp = "^[A-Z]{3}$", message = "Currency must be a 3-letter ISO 4217 code")
     private String currency;
 
     public PaymentInitiateRequest() {}

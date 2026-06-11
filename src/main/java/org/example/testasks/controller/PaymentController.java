@@ -26,6 +26,7 @@ public class PaymentController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Payment accepted/processed", content = @Content(schema = @Schema(implementation = PaymentInitiateResponse.class))),
             @ApiResponse(responseCode = "400", description = "Validation error or bad request"),
+            @ApiResponse(responseCode = "404", description = "Not found exception"),
             @ApiResponse(responseCode = "409", description = "Conflict, e.g., insufficient funds")
     })
     public ResponseEntity<PaymentInitiateResponse> initiate(@jakarta.validation.Valid @RequestBody PaymentInitiateRequest req) {

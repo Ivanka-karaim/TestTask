@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/mock/api")
@@ -48,11 +47,10 @@ public class MockBankController {
             @PathVariable String iban,
             @RequestHeader(value = "Authorization", required = false)
             String authHeader) {
-
-        var account = dataService.getAccount(iban);
         if (!isAuthorized(authHeader)) {
             return ResponseEntity.status(401).build();
         }
+        var account = dataService.getAccount(iban);
 
         if (account == null) {
             return ResponseEntity.notFound().build();

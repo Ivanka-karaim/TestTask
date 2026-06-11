@@ -89,17 +89,17 @@
       "timestamp" : 1749733200.000000000,
       "description" : "Gym"
     }, {
-      "id" : "b128e93b-7050-4519-b7a7-913cddfebfc0",
-      "iban" : "UA893220010000026005000000001",
-      "amount" : 1000,
+      "id" : "8143915a-dad1-4159-b4bf-362aec82bcb8",
+      "iban" : "UA893220010000026005000000002",
+      "amount" : -1000,
       "currency" : "EUR",
-      "timestamp" : 1781113435.055423300,
-      "description" : "Payment to UA893220010000026005000000010"
+      "timestamp" : 1781171500.079520400,
+      "description" : "Payment to UA893220010000026005000000002"
     } ]
   }, {
     "iban" : "UA893220010000026005000000002",
     "name" : "Oleh",
-    "balance" : 8400.00,
+    "balance" : 9400.00,
     "currency" : "EUR",
     "transactions" : [ {
       "id" : "tx20",
@@ -150,6 +150,13 @@
       "currency" : "EUR",
       "timestamp" : 1749285900.000000000,
       "description" : "Shopping"
+    }, {
+      "id" : "8143915a-dad1-4159-b4bf-362aec82bcb8",
+      "iban" : "UA893220010000026005000000001",
+      "amount" : 1000,
+      "currency" : "EUR",
+      "timestamp" : 1781171500.079520400,
+      "description" : "Payment from UA893220010000026005000000001"
     } ]
   }, {
     "iban" : "UA893220010000026005000000003",

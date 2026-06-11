@@ -24,12 +24,12 @@ public class AccountController {
 
     private final AccountService accountService;
 
-
     @GetMapping("/{accountId}/balance")
     @Operation(summary = "Get account balance", description = "Returns current balance and currency for the specified IBAN.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Balance returned", content = @Content(schema = @Schema(implementation = AccountBalanceResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request or validation error")
+            @ApiResponse(responseCode = "400", description = "Bad request or validation error"),
+            @ApiResponse(responseCode = "404", description = "Not found exception")
     })
     public ResponseEntity<AccountBalanceResponse> getBalance(@PathVariable("accountId") @Pattern(
             regexp = "^UA[0-9]{27}$",
@@ -43,7 +43,8 @@ public class AccountController {
     @Operation(summary = "Get recent transactions", description = "Returns the most recent transactions (persisted from external bank) for the specified IBAN.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "List of transactions returned", content = @Content(schema = @Schema(implementation = TransactionResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request or validation error")
+            @ApiResponse(responseCode = "400", description = "Bad request or validation error"),
+            @ApiResponse(responseCode = "404", description = "Not found exception")
     })
     public ResponseEntity<List<TransactionResponse>> getTransactions(@PathVariable("accountId") @Pattern(
             regexp = "^UA[0-9]{27}$",

@@ -1,6 +1,13 @@
 package org.example.testasks.api.dto;
 
-public record ErrorResponseDto(
-        String error,
-        String message
-) {}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+public class ErrorResponseDto {
+    private String error;
+    private String message;
+}

@@ -119,20 +119,6 @@ class IntegrationTests {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
-    @Test
-    @Order(4)
-    void getBalance_externalServerReturns404_propagates5xx() {
-        wireMock.stubFor(get(urlEqualTo("/mock/api/accounts/" + IBAN_1 + "/balance"))
-                .willReturn(aResponse().withStatus(404)));
-
-        ResponseEntity<String> response =
-                restTemplate.getForEntity("/api/accounts/{iban}/balance",
-                        String.class, IBAN_1);
-
-        assertThat(response.getStatusCode().is5xxServerError()).isTrue();
-    }
-
-    // ── GET /api/accounts/{accountId}/transactions ────────────────────────
 
     @Test
     @Order(10)

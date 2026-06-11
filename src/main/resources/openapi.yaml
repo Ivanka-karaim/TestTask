@@ -1,115 +1,339 @@
 openapi: 3.0.3
 info:
-  title: tesTasks OpenBanking API
-  version: '1.0'
+  title: OpenBanking API
+  version: '1.0.0'
   description: |
-    Simple OpenBanking API for test task.
-    - Retrieve account balance
-    - Fetch recent transactions
-    - Initiate payments
+    Simple OpenBanking API (PSD2-inspired) that allows clients to:
+    - Retrieve account balance by IBAN
+    - Fetch the last 10 transactions for an account
+    - Initiate IBAN-to-IBAN payments
+
+    ## Authentication
+    All endpoints require a Bearer token obtained via OAuth2 Client Credentials flow.
+
+    ## IBAN format
+    Only Ukrainian IBANs are supported: `UA` followed by exactly 27 digits.
+
 servers:
   - url: http://localhost:8084
+    description: Local development server
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Accounts
+    description: Account information — balance and transaction history
+  - name: Payments
+    description: Payment initiation
+
 paths:
+
   /api/accounts/{accountId}/balance:
     get:
+      tags: [Accounts]
       summary: Get account balance
-      description: Returns current balance and currency for the specified IBAN.
+      description: |
+        Returns the current balance and currency for the specified IBAN.
+        The data is fetched in real-time from the external banking system.
+      operationId: getBalance
       parameters:
-        - name: accountId
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/AccountId'
       responses:
         '200':
-          description: Balance returned
+          description: Balance retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountBalanceResponse'
+              example:
+                iban: UA893220010000026005000000001
+                balance: 5200.50
+                currency: EUR
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+
   /api/accounts/{accountId}/transactions:
     get:
+      tags: [Accounts]
       summary: Get recent transactions
-      description: Returns last 10 transactions for the specified IBAN.
+      description: |
+        Returns up to 10 most recent transactions for the specified IBAN,
+        sorted by timestamp descending (newest first).
+        Data is fetched in real-time from the external banking system.
+      operationId: getTransactions
       parameters:
-        - name: accountId
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/AccountId'
       responses:
         '200':
-          description: Transactions list
+          description: Transaction list retrieved successfully
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/TransactionResponse'
+              example:
+                - externalId: tx10
+                  amount: 99.99
+                  currency: EUR
+                  timestamp: '2025-06-10T20:00:00Z'
+                  description: Clothes
+                - externalId: tx9
+                  amount: 35.50
+                  currency: EUR
+                  timestamp: '2025-06-09T09:15:00Z'
+                  description: Taxi
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+
   /api/payments/initiate:
     post:
-      summary: Initiate payment
-      description: Initiates an IBAN-to-IBAN payment.
+      tags: [Payments]
+      summary: Initiate a payment
+      description: |
+        Initiates an IBAN-to-IBAN payment.
+
+        **Processing flow:**
+        1. Request is validated (IBANs, amount, currency)
+        2. Source account balance is verified against the requested amount
+        3. Payment is persisted locally with status `PENDING`
+        4. Payment is forwarded to the external banking system
+        5. Final status is set to `COMPLETED` or `FAILED` based on the external response
+
+        **Note:** If the external call succeeds but a downstream error occurs,
+        the payment may remain in `SENT` state and will be resolved by a recovery job.
+      operationId: initiatePayment
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentInitiateRequest'
+            example:
+              fromIban: UA893220010000026005000000001
+              toIban: UA893220010000026005000000002
+              amount: 250.00
+              currency: EUR
       responses:
         '200':
-          description: Payment processed
+          description: Payment processed (check `status` field for outcome)
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentInitiateResponse'
+              examples:
+                completed:
+                  summary: Payment completed
+                  value:
+                    id: 1
+                    status: COMPLETED
+                    externalReference: ext-ref-abc123
+                failed:
+                  summary: Payment rejected by external bank
+                  value:
+                    id: 2
+                    status: FAILED
+                    externalReference: null
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Conflict — insufficient funds on the source account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: Conflict
+                message: Insufficient funds
+        '502':
+          $ref: '#/components/responses/BadGateway'
+
 components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 Bearer token (Client Credentials flow)
+
+  parameters:
+    AccountId:
+      name: accountId
+      in: path
+      required: true
+      description: Account IBAN — `UA` followed by exactly 27 digits
+      schema:
+        type: string
+        pattern: '^UA[0-9]{27}$'
+        example: UA893220010000026005000000001
+
   schemas:
+
     AccountBalanceResponse:
       type: object
+      required: [iban, balance, currency]
       properties:
         iban:
           type: string
+          pattern: '^UA[0-9]{27}$'
+          description: Account IBAN
+          example: UA893220010000026005000000001
         balance:
           type: number
           format: double
+          description: Current account balance
+          example: 5200.50
         currency:
           type: string
+          pattern: '^[A-Z]{3}$'
+          description: ISO 4217 currency code
+          example: EUR
+
     TransactionResponse:
       type: object
+      required: [externalId, amount, currency, timestamp]
       properties:
         externalId:
           type: string
+          description: Unique transaction identifier assigned by the external bank
+          example: tx10
         amount:
           type: number
           format: double
+          description: Transaction amount (always positive; direction implied by context)
+          example: 99.99
         currency:
           type: string
+          pattern: '^[A-Z]{3}$'
+          description: ISO 4217 currency code
+          example: EUR
         timestamp:
           type: string
           format: date-time
+          description: Transaction timestamp (ISO 8601, UTC)
+          example: '2025-06-10T20:00:00Z'
         description:
           type: string
+          description: Human-readable transaction description
+          example: Clothes
+
     PaymentInitiateRequest:
       type: object
       required: [fromIban, toIban, amount, currency]
       properties:
         fromIban:
           type: string
+          pattern: '^UA[0-9]{27}$'
+          description: Source account IBAN
+          example: UA893220010000026005000000001
         toIban:
           type: string
+          pattern: '^UA[0-9]{27}$'
+          description: Destination account IBAN (must differ from fromIban)
+          example: UA893220010000026005000000002
         amount:
           type: number
           format: double
+          minimum: 0.01
+          description: Payment amount (must be positive)
+          example: 250.00
         currency:
           type: string
+          pattern: '^[A-Z]{3}$'
+          description: ISO 4217 currency code
+          example: EUR
+
     PaymentInitiateResponse:
       type: object
+      required: [id, status]
       properties:
         id:
           type: integer
+          format: int64
+          description: Internal payment ID assigned by this system
+          example: 1
         status:
           type: string
+          enum: [COMPLETED, FAILED]
+          description: Final payment status
+          example: COMPLETED
         externalReference:
           type: string
-security: []
+          nullable: true
+          description: Transaction reference returned by the external bank (null if payment failed before reaching external bank)
+          example: ext-ref-abc123
+
+    ErrorResponse:
+      type: object
+      required: [error, message]
+      properties:
+        error:
+          type: string
+          description: Short error category
+          example: Not Found
+        message:
+          type: string
+          description: Human-readable error detail
+          example: UA893220010000026005000000099 not found
+
+  responses:
+
+    BadRequest:
+      description: Bad request — validation failed (invalid IBAN format, non-positive amount, missing required field, etc.)
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+              - type: object
+                additionalProperties:
+                  type: string
+                description: Field-level validation errors (field name → message)
+          examples:
+            ibanFormat:
+              summary: Invalid IBAN format
+              value:
+                error: Bad Request
+                message: Invalid IBAN format
+            fieldErrors:
+              summary: Multiple field validation errors
+              value:
+                fromIban: Invalid IBAN format
+                currency: Currency must be a 3-letter ISO 4217 code
+            sameIban:
+              summary: Source and destination are the same
+              value:
+                error: Bad Request
+                message: Source and destination IBAN must differ
+
+    NotFound:
+      description: Not found — the requested account does not exist
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: Not Found
+            message: UA893220010000026005000000099 not found
+
+    BadGateway:
+      description: External banking service is unavailable or returned an unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: External Service Error
+            message: Service temporarily unavailable

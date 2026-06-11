@@ -1,9 +1,12 @@
 package org.example.testasks.external.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class OAuthTokenResponse {
 
     @JsonProperty("access_token")
